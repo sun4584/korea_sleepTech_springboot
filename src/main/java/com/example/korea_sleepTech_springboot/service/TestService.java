@@ -1,6 +1,6 @@
 package com.example.korea_sleepTech_springboot.service;
 
-import com.example.korea_sleepTech_springboot.entity.TestEntity;
+import com.example.korea_sleepTech_springboot.entity.A_TestEntity;
 import com.example.korea_sleepTech_springboot.repository.TestRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,18 +18,18 @@ public class TestService {
         this.testRepository = testRepository;
     }
 
-    public List<TestEntity> getAllTests() {
+    public List<A_TestEntity> getAllTests() {
         return testRepository.findAll(); // 전체 test 목록을 가져오기
     }
 
-    public TestEntity createTest(TestEntity testEntity) {
-        return testRepository.save(testEntity);
+    public A_TestEntity createTest(A_TestEntity ATestEntity) {
+        return testRepository.save(ATestEntity);
     }
 
-    public TestEntity getTestById(Long id) {
-        Optional<TestEntity> optionalTestEntity = testRepository.findById(id);
+    public A_TestEntity getTestById(Long id) {
+        Optional<A_TestEntity> optionalTestEntity = testRepository.findById(id);
 
-        TestEntity test = optionalTestEntity.orElseThrow(() ->
+        A_TestEntity test = optionalTestEntity.orElseThrow(() ->
                 new RuntimeException("해당 ID를 가진 데이터가 없습니다: " + id));
 
         return test;

@@ -1,9 +1,8 @@
 package com.example.korea_sleepTech_springboot.controller;
 
-import com.example.korea_sleepTech_springboot.entity.TestEntity;
+import com.example.korea_sleepTech_springboot.entity.A_TestEntity;
 import com.example.korea_sleepTech_springboot.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,25 +28,25 @@ public class TestController {
             TestService testService;
 
     @GetMapping // GET + localhost:8080/test
-    public List<TestEntity> getAllTests() {
-        List<TestEntity> tests = testService.getAllTests();
+    public List<A_TestEntity> getAllTests() {
+        List<A_TestEntity> tests = testService.getAllTests();
         return tests;
     }
 
     @GetMapping("/{id}") // @메서드Mapping(추가 URI 지정) // GET + localhost:8080/test/숫자값
-    public TestEntity getTestById(@PathVariable Long id) { // @PathVariable: URL 경로에서 변수값을 포함하여 전달 (경로 변수를 표시)
-        TestEntity test = testService.getTestById(id);
+    public A_TestEntity getTestById(@PathVariable Long id) { // @PathVariable: URL 경로에서 변수값을 포함하여 전달 (경로 변수를 표시)
+        A_TestEntity test = testService.getTestById(id);
         return test;
     }
 
     @PostMapping
-    public TestEntity createTest(@RequestBody TestEntity testEntity) {
-        TestEntity test = testService.createTest(testEntity);
+    public A_TestEntity createTest(@RequestBody A_TestEntity ATestEntity) {
+        A_TestEntity test = testService.createTest(ATestEntity);
         return test;
     }
 
     @PutMapping
-    public TestEntity updateTest(@PathVariable Long id, @RequestBody TestEntity testEntity) {
+    public A_TestEntity updateTest(@PathVariable Long id, @RequestBody A_TestEntity ATestEntity) {
         return null;
     }
 
