@@ -29,6 +29,9 @@ dependencies {
 	// 웹 애플리케이션 개발 시 반드시 필요: 내장 톰캣 서버를 실행, 스프링 어노테이션 사용 가능
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	// 프로젝트 유효성 검사를 위한 의존성 입력
+	implementation('jakarta.validation:jakarta.validation-api:3.1.0')
+
 	// H2 데이터베이스를 runtime 환경에서만 사용: 개발, 테스용으로 쓰이는 메모리 | 로컬 파일 기반의 임시 DB
 	runtimeOnly 'com.h2database:h2'
 	// MySQL Driver

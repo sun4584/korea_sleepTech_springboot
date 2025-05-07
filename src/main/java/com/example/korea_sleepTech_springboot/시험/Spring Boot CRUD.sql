@@ -1,0 +1,17 @@
+CREATE DATABASE `Product`;
+DROP DATABASE `Product`;
+CREATE DATABASE `Spring Boot CRUD`;
+drop database `Spring Boot CRUD`;
+
+USE `Spring Boot CRUD`;
+
+CREATE TABLE `Product`(id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+SELECT * FROM `Product`;
+
