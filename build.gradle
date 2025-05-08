@@ -31,6 +31,9 @@ dependencies {
 
 	// 프로젝트 유효성 검사를 위한 의존성 입력
 	implementation('jakarta.validation:jakarta.validation-api:3.1.0')
+	// Validation API가 인터페이스 정의만 포함 (실제 구현체 X)
+	// : Hibernate Validator 추가 실제 @Valid 애너테이션에 대한 동작을 명시
+	implementation('org.hibernate.validator:hibernate-validator:8.0.0.Final')
 
 	// H2 데이터베이스를 runtime 환경에서만 사용: 개발, 테스용으로 쓰이는 메모리 | 로컬 파일 기반의 임시 DB
 	runtimeOnly 'com.h2database:h2'
