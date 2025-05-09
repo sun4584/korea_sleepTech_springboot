@@ -58,7 +58,8 @@ public class StudentController {
      * @Return: StudentDto
      * */
     @PutMapping("/{id}")
-    public StudentResponseDto updateStudent(@PathVariable Long id, @RequestBody StudentUpdateRequestDto studentDto) {
+    public StudentResponseDto
+    updateStudent(@PathVariable Long id, @RequestBody StudentUpdateRequestDto studentDto) {
         return studentService.updateStudent(id, studentDto);
     }
 

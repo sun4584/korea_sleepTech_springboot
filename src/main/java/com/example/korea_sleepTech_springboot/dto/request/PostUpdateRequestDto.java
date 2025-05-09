@@ -3,8 +3,15 @@ package com.example.korea_sleepTech_springboot.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+/*
+ * == DTO ==
+ * : DTO는 생성 시점에 값이 채워짐 (불변성 유지)
+ *       >> 필드는 final 설정
+ *
+ * cf) 요청 DTO의 경우 일반적으로 생성되고 난 후 변경 X (불변성)
+ *       >> @Setter 불필요
+ * */
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
