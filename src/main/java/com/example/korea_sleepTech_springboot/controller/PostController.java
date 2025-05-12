@@ -91,9 +91,9 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    // 9) 특정 키워드를 포함하는 댓글이 달린 게시글 조회
+    //      >> "스프링"이라는 키워드를 포함한 댓글이 달린 모든 게시글을 조회
 
-
-
-
-
+    // 10) 특정 작성자의 게시글 중, 댓글 수가 일정 개수 이상인 게시글 조회
+    //      >> 특정 author 가 작성한 게시글 중에서 댓글이 3개 이상인 게시글을 조회
 }
