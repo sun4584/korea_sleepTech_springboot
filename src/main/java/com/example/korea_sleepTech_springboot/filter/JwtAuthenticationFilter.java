@@ -8,7 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /*
  * === JwtAuthenticationFilter ===
@@ -64,9 +68,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // JWT 토큰이 유효한 경우 해당 토큰에서 사용자 ID를 추출
             String username = jwtProvider.getUsernameFromJwt(token);
+            Set<String> roles = jwtProvider.getRolesFromJwt(token);
 
             // 추출한 사용자 ID를 SecurityContext에 인증 정보 설정
-            setAuthenticationContext(request, username);
+            setAuthenticationContext(request, username, roles);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,11 +89,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * >> Spring Security는 SecurityContextHoler에 있는 인증 정보를 자동으로
      *       , 컨트롤러의 메서드에 주입시킬 수 있음 (@AuthenticationPrincipal)
      * */
-    private void setAuthenticationContext(HttpServletRequest request, String username) {
+    private void setAuthenticationContext(HttpServletRequest request, String username, Set<String> roles) {
+
+        List<GrantedAuthority> authorities = roles.stream()
+                // JWT 로그인 방식에서 사용자가 요청을 보낼 때
+                // , 토큰에 담긴 roles 정보를 hasRole("")과 매칭시키기 위함
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toList());
+
+
         // 사용자 ID를 바탕으로 UsernamePasswordAuthenticationToken(인증 토큰) 생성
         // : 기본 설정 - 권한 없음
         AbstractAuthenticationToken authenticationToken
-                = new UsernamePasswordAuthenticationToken(username, null, AuthorityUtils.NO_AUTHORITIES);
+                = new UsernamePasswordAuthenticationToken(username, null, authorities);
 
         // 요청에 대한 세부 정보를 설정
         // : 생성된 인증 토큰에 요청의 세부 사항을 설정
