@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS test (
 SELECT * FROM test;
 
 -- student 테이블 --
-CREATE TABLE IF NOT EXISTS student (
+CREATE TABLE student (
 	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS student (
 SELECT * FROM student;
 
 -- book 테이블 --
-CREATE TABLE IF NOT EXISTS book (
+CREATE TABLE book (
 	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     writer VARCHAR(50) NOT NULL,
     title VARCHAR(100) NOT NULL,
@@ -84,4 +84,19 @@ CREATE TABLE IF NOT EXISTS user_roles (
     PRIMARY KEY (user_id, role_id), -- 복합 기본키: 중복 매핑 방지
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE
+);
+
+-- log(기록) 테이블 --
+# 권한 변경 시 기록(로그) 테이블에 자동 저장
+CREATE TABLE IF NOT EXISTS role_change_logs (
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL, -- 권한이 변경된 사용자 ID(PK)
+    email VARCHAR(255) NOT NULL, -- 사용자 이메일
+    prev_roles TEXT,
+    new_roles TEXT,
+    change_by VARCHAR(255) NOT NULL, -- 변경을 수행한 관리자 이메일
+    change_type VARCHAR(255) NOT NULL, --
+    change_reason VARCHAR(255),
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE
 );
