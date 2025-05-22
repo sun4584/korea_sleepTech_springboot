@@ -1,17 +1,21 @@
 package com.example.korea_sleepTech_springboot.controller;
 
 import com.example.korea_sleepTech_springboot.common.ApiMappingPattern;
+import com.example.korea_sleepTech_springboot.dto.auth.PasswordResetRequestDto;
+import com.example.korea_sleepTech_springboot.dto.auth.SendMailRequestDto;
 import com.example.korea_sleepTech_springboot.dto.response.ResponseDto;
 import com.example.korea_sleepTech_springboot.dto.user.request.UserSignInRequestDto;
 import com.example.korea_sleepTech_springboot.dto.user.request.UserSignUpRequestDto;
 import com.example.korea_sleepTech_springboot.dto.user.response.UserSignInResponseDto;
 import com.example.korea_sleepTech_springboot.dto.user.response.UserSignUpResponseDto;
 import com.example.korea_sleepTech_springboot.service.AuthService;
+import com.example.korea_sleepTech_springboot.service.MailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping(ApiMappingPattern.AUTH_API)
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final MailService mailService;
 
     // === AuthController mapping pattern === //
     private static final String POST_SIGN_UP = "/signup";
@@ -50,5 +55,23 @@ public class AuthController {
     public ResponseEntity<ResponseDto<UserSignInResponseDto>> login(@Valid @RequestBody UserSignInRequestDto dto) {
         ResponseDto<UserSignInResponseDto> response = authService.login(dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 3) 이메일 전송
+    @PostMapping("/send-email")
+    public Mono<ResponseEntity<String>> sendEmail(@Valid @RequestBody SendMailRequestDto dto) {
+        return mailService.sendSimpleMessage(dto.getEmail());
+    }
+
+    // 4) 이메일 인증
+    @GetMapping("/verify")
+    public Mono<ResponseEntity<String>> verifyEmail(@RequestParam String token) {
+        return mailService.verifyEmail(token);
+    }
+
+    // 비밀번호 재설정
+    @PostMapping("/reset-password")
+    public Mono<ResponseEntity<String>> resetPassword(@Valid @RequestBody PasswordResetRequestDto dto) {
+        return authService.resetPassword(dto);
     }
 }
